@@ -1,0 +1,30 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "development=true firebase emulators:start --only functions",
+    "shell": "development=true firebase functions:shell",
+    "start": "development=true npm run shell",
+    "runtime": "firebase functions:config:get > .runtimeconfig.json",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "@epnsproject/backend-sdk": "^2.0.0",
+    "ethers": "^5.6.4",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0",
+    "graphql": "^16.3.0",
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "@epnsproject/backend-sdk-staging": "^2.0.3",
+    "eslint": "^8.14.0"
+  }
+}
