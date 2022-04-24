@@ -49,7 +49,7 @@ const epns_payload_from_subscription = async ( { node_address, subscriber, node_
 	// Format EPNS noti according to https://docs.epns.io/developer-zone/developer-guides/sending-notifications/server-workflow/backend-sdk-quick-set-up
 	return {
 		recipientAddress: subscriber,
-		push_notification_title: `Beaconpulse - validator ${ tldr.online ? 'up' : 'DOWN' }`,
+		push_notification_title: `Validator ${ tldr.online ? 'up' : 'DOWN' }`,
 		push_notification_body: `Balance up by ${ tldr.balance_change_eth }ETH ($${dollars_gained}). ${ tldr.missed?.length || 0 } issues.`,
 		notification_title: `Beaconpulse - ${ tldr.missed?.length } issues`,
 		notification_body: `Balance change: ${ tldr.balance_change_eth }ETH ($${dollars_gained}). Issues: ${ tldr.missed?.length == 0 ? 'none' : tldr.missed?.join( `, ` ) }.`,
