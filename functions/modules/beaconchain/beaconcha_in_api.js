@@ -56,16 +56,20 @@ async function call_beaconcha_in_endpoint( endpoint, data, verbose=false ) {
 
 const get_validators_by_eth1 = async eth1 => {
 
+	log( `Get validators for `, eth1 )
 	const { data: validators, error, message } = await call_beaconcha_in_endpoint( `/validator/eth1/${ eth1 }`, true )
 	if( error ) throw new Error( `Beaconcha.in error: `, message )
 	// log( `Validators: `, validators )
 
+	log( `Got validators for `, eth1 )
 	if( !Array.isArray( validators ) ) return [ validators ]
 	return validators
 
 }
 
 const get_validator_data_by_index = async index => {
+
+	log( `Get validator data for `, index )
 
 	// Get validator overview from beaconcha.in
 	const { data: validator_data, error, message } = await call_beaconcha_in_endpoint( `/validator/${ index }` )
@@ -78,6 +82,7 @@ const get_validator_data_by_index = async index => {
 	// If this is a rocketpool node, get the Rocketpool data
 	if( validator_data.is_rocketpool ) {
 
+		log( `Get rocketpool data for `, index )
 		const { data: rocketpool_data } = await call_beaconcha_in_endpoint( `/rocketpool/validator/${ index }` )
 		validator_data.rocketpool_data = rocketpool_data
 
@@ -107,7 +112,10 @@ exports.get_node_data_by_eth1 = async eth1 => {
 	try {
 
 		const validators = await get_validators_by_eth1( eth1 )
+		if( !validators.length ) throw new Error( `This ETH1 address has no validators associated with it` )
+
 		const validator_data = await Promise.all( validators.map( ( { validatorindex } ) => get_validator_data_by_index( validatorindex ) ) )
+		
 		
 		const node_data = validator_data.reduce( ( acc, val ) => {
 
