@@ -4,12 +4,17 @@ const { thegraph } = functions.config()
 const { log } = require( '../helpers' )
 const { db, dataFromSnap } = require("../firebase")
 
-const APIURL = `https://gateway.thegraph.com/api/${ thegraph.api_key }/subgraphs/id/D7azkFFPFT5H8i32ApXLr34UQyBfxDAfKoCEK4M832M6`
+const APIURL = `https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3`
 const client = new ApolloClient({
-  uri: APIURL,
-  cache: new InMemoryCache(),
+	uri: APIURL,
+	cache: new InMemoryCache(),
 })
 
+const timeout_with_data = ms => new Promise( resolve => {
+
+	setTimeout( f => resolve( { data: undefined } ), ms )
+
+} )
 
 exports.get_weth_price_from_thegraph = async function() {
 
@@ -17,19 +22,27 @@ exports.get_weth_price_from_thegraph = async function() {
 
 		const weth_price_query = `
 			query {
-				pairs( where: { id: "0x06da0fd433c1a5d7a4faa01111c044910a184553" } ) {
-					id,
-					token1Price
+				pool( id: "0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8" ) {
+					tick
+					token0Price,
 				}
 			}
 		`
 
-		const { data } = await client.query( { query: gql( weth_price_query ) } )
-		if( data ) {
+		const { data } = await Promise.race( [
+			timeout_with_data( 3000 ),
+			client.query( { query: gql( weth_price_query ) } ).catch( e => ( { data: undefined } ) )
+		] )
+
+		const graph_weth_price = data?.pool.token0Price
+
+		if( graph_weth_price ) {
+
+			log( `Graph WETH price: `, graph_weth_price )
 
 			// Set the newly received value to local cache
-			await db.collection( 'cache' ).doc( 'thegraph' ).set( { weth_price: data.token1Price, updated: Date.now(), updated_human: new Date().toString() }, { merge: true } )
-			return data.token1Price
+			await db.collection( 'cache' ).doc( 'thegraph' ).set( { weth_price: graph_weth_price, updated: Date.now(), updated_human: new Date().toString() }, { merge: true } )
+			return graph_weth_price
 
 		}
 

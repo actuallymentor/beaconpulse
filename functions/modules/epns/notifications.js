@@ -7,7 +7,9 @@ const { get_weth_price_from_thegraph } = require( '../thegraph/price_oracle' )
 const functions = require("firebase-functions")
 const { epns } = functions.config()
 const EpnsSDK = require( '@epnsproject/backend-sdk' ).default
-const enpsSdk = new EpnsSDK( `0x${epns.private_key}` )
+const enpsSdk = new EpnsSDK( `0x${epns.private_key}`, {
+	channelAddress: '0x7DBF6820D32cFBd5D656bf9BFf0deF229B37cF0E'
+} )
 
 const epns_payload_from_subscription = async ( { node_address, subscriber, node_data_cache={}, weth_price } ) => {
 
@@ -143,7 +145,7 @@ exports.send_queued_epns_notifications = async function() {
 		const message_payloads = await get_epns_payloads()
 
 		// Send notifications to EPNS
-		return log( `To send: `, message_payloads )
+		await Promise.all( message_payloads.map( send_single_epns_message ) )
 
 	} catch( e ) {
 
