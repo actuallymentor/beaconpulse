@@ -20,8 +20,7 @@
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0",
     "graphql": "^16.3.0",
-    "isomorphic-fetch": "^3.0.0",
-    "urql": "^2.2.0"
+    "isomorphic-fetch": "^3.0.0"
   },
   "private": true,
   "devDependencies": {
