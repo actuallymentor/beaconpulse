@@ -27,9 +27,19 @@ const allow_only_these_properties = ( obj, allowed_properties ) => {
 
 }
 
+const wait = ( ms, data_to_resolve, throw_on_timeout=false ) => new Promise( ( res, rej ) => {
+
+	setTimeout( f => {
+		if( throw_on_timeout ) return rej( data_to_resolve )
+		res( data_to_resolve )
+	}, ms )
+
+} )
+
 module.exports = {
 	dev,
 	log,
 	require_properties,
-	allow_only_these_properties
+	allow_only_these_properties,
+	wait
 }

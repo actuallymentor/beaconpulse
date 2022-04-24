@@ -3,8 +3,10 @@ const { log, require_properties, allow_only_these_properties } = require( '../he
 const { verify_message } = require( '../web3' )
 const { get_validator_data_by_eth1 } = require( '../beaconchain/beaconcha_in_api' )
 const { epns_payload_from_subscription, send_single_epns_message } = require( '../epns/notifications' )
+const Throttle = require( 'promise-parallel-throttle' )
 
 exports.subscribe_to_node = async ( message, context ) => {
+
 
 	try {
 

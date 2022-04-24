@@ -20,7 +20,9 @@
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0",
     "graphql": "^16.3.0",
-    "isomorphic-fetch": "^3.0.0"
+    "isomorphic-fetch": "^3.0.0",
+    "promise-parallel-throttle": "^3.3.0",
+    "promise-retry": "^2.0.1"
   },
   "private": true,
   "devDependencies": {

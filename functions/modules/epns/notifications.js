@@ -50,11 +50,11 @@ const epns_payload_from_subscription = async ( { node_address, subscriber, node_
 	return {
 		recipientAddress: subscriber,
 		push_notification_title: `Beaconpulse - validator ${ tldr.online ? 'up' : 'DOWN' }`,
-		push_notification_body: `Balance up by ${ tldr.balance_change_eth }ETH ($${dollars_gained}). ${ tldr.missed.length } issues.`,
-		notification_title: `Beaconpulse - ${ tldr.missed.length } issues`,
-		notification_body: `Balance change: ${ tldr.balance_change_eth }ETH ($${dollars_gained}). Issues: ${ tldr.missed.length == 0 ? 'none' : tldr.missed.join( `, ` ) }.`,
+		push_notification_body: `Balance up by ${ tldr.balance_change_eth }ETH ($${dollars_gained}). ${ tldr.missed?.length || 0 } issues.`,
+		notification_title: `Beaconpulse - ${ tldr.missed?.length } issues`,
+		notification_body: `Balance change: ${ tldr.balance_change_eth }ETH ($${dollars_gained}). Issues: ${ tldr.missed?.length == 0 ? 'none' : tldr.missed?.join( `, ` ) }.`,
 		notificatinon_type: 3,
-		cta: `https://beaconcha.in/validators/eth1deposits?q={ node_address }`,
+		cta: `https://beaconcha.in/validators/eth1deposits?q=${ node_address }`,
 		image: 'https://beaconpulse.web.app/logo512.png'
 	}
 
