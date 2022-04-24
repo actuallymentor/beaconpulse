@@ -52,7 +52,7 @@ const epns_payload_from_subscription = async ( { node_address, subscriber, node_
 		notification_body: `Balance change: ${ tldr.balance_change_eth }ETH ($${dollars_gained}). Issues: ${ tldr.missed.length == 0 ? 'none' : tldr.missed.join( `, ` ) }.`,
 		notificatinon_type: 3,
 		cta: `https://beaconcha.in/validators/eth1deposits?q={ node_address }`,
-		image: ''
+		image: 'https://beaconpulse.web.app/logo512.png'
 	}
 
 }

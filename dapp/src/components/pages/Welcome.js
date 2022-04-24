@@ -43,7 +43,7 @@ export default ( { ...props } ) => {
 	
 			<Hero align='flex-start'>
 				
-				<H1>Beaconpulse</H1>
+				<H1>Beacon Pulse</H1>
 				<H2>A daily push notification with the ETH winnings of your Ethereum Beaconchain validator.</H2>
 				<Text>Delivered through the Ethereum Push Notification Service (EPNS).</Text>
 				{ ( address || manualAddress ) && <Button onClick={ f => navigate( '/subscribe' ) }>Register for notifications</Button> }

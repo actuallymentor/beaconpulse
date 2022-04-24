@@ -99,7 +99,7 @@ export default ( { ...props } ) => {
 				}, address )
 
 
-				setLoading( `Registering you with Beaconpulse oracle` )
+				setLoading( `Registering you with Beacon Pulse oracle` )
 				
 				// Register with remote
 				const { error, message: error_message } = await subscribe_to_node( message )
@@ -112,7 +112,7 @@ export default ( { ...props } ) => {
 			// Opt-in on EPNS
 			if( step == 2 ) {
 
-				window.open( `https://staging-app.epns.io/#/spam`, '_blank' ).focus()
+				window.open( `https://app.epns.io/#/spam`, '_blank' ).focus()
 				setStep( step + 1 )
 
 			}
@@ -158,7 +158,7 @@ export default ( { ...props } ) => {
 		
 		<Sidenote>Step 3 of 4</Sidenote>
 		<H1>Opt-in on EPNS</H1>
-		<Text>By default, all EPNS notifications go to "spam". Please opt-in to the Beaconpulse notifications to receive them.</Text>
+		<Text>By default, all EPNS notifications go to "spam". Please opt-in to the Beacon Pulse notifications to receive them.</Text>
 		<Button onClick={ nextStep }>Open EPNS app to opt-in</Button>
 
 	</Container>
