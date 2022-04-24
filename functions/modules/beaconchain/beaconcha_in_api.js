@@ -56,7 +56,7 @@ async function call_beaconcha_in_endpoint( endpoint, data, verbose=false ) {
 
 const get_validators_by_eth1 = async eth1 => {
 
-	const { data: validators, error, message } = await call_beaconcha_in_endpoint( `/validator/eth1/${ eth1 }` )
+	const { data: validators, error, message } = await call_beaconcha_in_endpoint( `/validator/eth1/${ eth1 }`, true )
 	if( error ) throw new Error( `Beaconcha.in error: `, message )
 	// log( `Validators: `, validators )
 

@@ -33,6 +33,7 @@ const epns_payload_from_subscription = async ( { node_address, subscriber, node_
 
 	// If not, get the new data and set it to cache
 	if( !node_data_cache[ node_address ] ) {
+		log( `Getting beaconchain data for `, node_address )
 		const node_data = await get_node_data_by_eth1( node_address )
 		node_data_cache[ node_address ] = node_data
 		tldr = node_data
@@ -75,8 +76,9 @@ async function get_epns_payloads( ) {
 							.get()
 							.then( dataFromSnap )
 
+		log( `${ subscriptions.length } notifications to send: `, subscriptions[0] )
 
-		if( subscriptions.length == 0 ) return
+		if( subscriptions.length == 0 ) return []
 
 		/* ///////////////////////////////
 		// Get thegraph price data */
@@ -86,7 +88,7 @@ async function get_epns_payloads( ) {
 		/* ///////////////////////////////
 		// Formulate EPNS payloads */
 		const node_data_cache = {}
-		const epns_payloads = await Promise.all( subscriptions.map( ( { node_address, subscriber } ) => epns_payload_from_subscription( node_address, subscriber, node_data_cache, weth_price ) ) )
+		const epns_payloads = await Promise.all( subscriptions.map( ( { node_address, subscriber } ) => epns_payload_from_subscription( { node_address, subscriber, node_data_cache, weth_price  }) ) )
 
 		/* ///////////////////////////////
 		// Move notification markers to tomorrow */
@@ -143,6 +145,8 @@ exports.send_queued_epns_notifications = async function() {
 
 		// Get message payloads we should send
 		const message_payloads = await get_epns_payloads()
+
+		log( `${ message_payloads.length } EPNS payloads: `, message_payloads[0] )
 
 		// Send notifications to EPNS
 		await Promise.all( message_payloads.map( send_single_epns_message ) )

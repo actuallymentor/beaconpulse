@@ -38,7 +38,7 @@ exports.get_weth_price_from_thegraph = async function() {
 
 		if( graph_weth_price ) {
 
-			log( `Graph WETH price: `, graph_weth_price )
+			// log( `Graph WETH price: `, graph_weth_price )
 
 			// Set the newly received value to local cache
 			await db.collection( 'cache' ).doc( 'thegraph' ).set( { weth_price: graph_weth_price, updated: Date.now(), updated_human: new Date().toString() }, { merge: true } )
